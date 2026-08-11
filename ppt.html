@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub PPTX Viewer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; }
+        .slide-container {
+            border: 1px solid #e5e7eb;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // ============================================================================
+        // PENTING: DAFTARKAN NAMA FILE PPTX ANDA DI SINI
+        // Karena ditaruh di server (GitHub), aplikasi tidak bisa scan folder otomatis.
+        // Tulis nama file persis seperti yang Anda upload di folder yang sama.
+        // ============================================================================
+        const DAFTAR_FILE_DI_GITHUB = [
+            { name: "Presentasi_Satu.pptx", url: "./Presentasi_Satu.pptx" },
+            { name: "Materi_Kuliah.pptx", url: "./Materi_Kuliah.pptx" },
+            // Tambahkan file lain di sini dengan format yang sama
+            // { name: "Nama_File.pptx", url: "./Nama_File.pptx" },
+        ];
+
+        function App() {
+            const [selectedFile, setSelectedFile] = useState(null);
+            const [slideContents, setSlideContents] = useState([]);
+            const [loading, setLoading] = useState(false);
+            const [error, setError] = useState(null);
+
+            // Fungsi untuk mengambil file dari URL GitHub dan mengekstrak teksnya
+            const fetchAndExtractPptxText = async (fileObj) => {
+                setLoading(true);
+                setError(null);
+                setSlideContents([]);
+
+                try {
+                    // 1. Download (fetch) file PPTX dari server/GitHub Pages
+                    const response = await fetch(fileObj.url);
+                    
+                    if (!response.ok) {
+                        throw new Error(`File tidak ditemukan (Status: ${response.status}). Pastikan nama file di kode sesuai dengan nama file yang diupload.`);
+                    }
+
+                    // 2. Ubah response menjadi Blob (data biner)
+                    const blob = await response.blob();
+
+                    // 3. Ekstrak menggunakan JSZip
+                    const zip = new JSZip();
+                    const zipContent = await zip.loadAsync(blob);
+                    
+                    const slides = [];
+                    // Cari file XML slide
+                    const slideFiles = Object.keys(zipContent.files).filter(name => 
+                        name.startsWith('ppt/slides/slide') && name.endsWith('.xml')
+                    );
+
+                    // Urutkan slide
+                    slideFiles.sort((a, b) => {
+                        const numA = parseInt(a.match(/slide(\d+)\.xml/)[1]);
+                        const numB = parseInt(b.match(/slide(\d+)\.xml/)[1]);
+                        return numA - numB;
+                    });
+
+                    for (const slidePath of slideFiles) {
+                        const slideXmlStr = await zipContent.files[slidePath].async('text');
+                        const parser = new DOMParser();
+                        const xmlDoc = parser.parseFromString(slideXmlStr, "text/xml");
+                        
+                        const textNodes = xmlDoc.getElementsByTagName('a:t');
+                        let slideText = [];
+                        for (let i = 0; i < textNodes.length; i++) {
+                            if (textNodes[i].textContent.trim() !== '') {
+                                slideText.push(textNodes[i].textContent);
+                            }
+                        }
+                        
+                        slides.push({
+                            id: slidePath,
+                            content: slideText
+                        });
+                    }
+
+                    if (slides.length === 0) {
+                        setError("Tidak dapat mengekstrak teks dari file ini. Mungkin file kosong atau hanya berisi gambar.");
+                    } else {
+                        setSlideContents(slides);
+                    }
+
+                } catch (err) {
+                    console.error("Error reading PPTX from URL:", err);
+                    setError(err.message || "Gagal memuat atau membaca file .pptx. Periksa apakah file benar-benar ada di GitHub repository Anda.");
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            const handleFileClick = (file) => {
+                setSelectedFile(file);
+                if (file.name.toLowerCase().endsWith('.pptx')) {
+                    fetchAndExtractPptxText(file);
+                } else {
+                    setError("Hanya format .pptx yang didukung oleh pembaca ini.");
+                    setSlideContents([]);
+                }
+            };
+
+            return (
+                <div className="container mx-auto p-6 max-w-5xl h-screen flex flex-col">
+                    {/* Header */}
+                    <div className="bg-white rounded-lg shadow p-6 mb-6 flex justify-between items-center shrink-0">
+                        <div>
+                            <h1 className="text-2xl font-bold text-gray-800">GitHub PPTX Viewer</h1>
+                            <p className="text-gray-500 text-sm mt-1">Membaca file presentasi langsung dari URL.</p>
+                        </div>
+                    </div>
+
+                    {/* Main Content Area */}
+                    <div className="flex flex-1 overflow-hidden bg-white rounded-lg shadow">
+                        {/* Sidebar: File List */}
+                        <div className="w-1/3 border-r border-gray-200 flex flex-col">
+                            <div className="p-4 bg-gray-50 border-b border-gray-200 font-semibold text-gray-700">
+                                Daftar File Tersedia
+                            </div>
+                            <div className="overflow-y-auto flex-1 p-2">
+                                <ul className="space-y-1">
+                                    {DAFTAR_FILE_DI_GITHUB.map((file, index) => (
+                                        <li key={index}>
+                                            <button 
+                                                onClick={() => handleFileClick(file)}
+                                                className={`w-full text-left px-3 py-2 rounded text-sm truncate transition-colors ${
+                                                    selectedFile && selectedFile.name === file.name 
+                                                        ? 'bg-blue-100 text-blue-800 font-medium' 
+                                                        : 'hover:bg-gray-100 text-gray-700'
+                                                }`}
+                                            >
+                                                📄 {file.name}
+                                            </button>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        </div>
+
+                        {/* Main Panel: Document Preview */}
+                        <div className="w-2/3 flex flex-col bg-gray-50">
+                            {/* Preview Header */}
+                            {selectedFile && (
+                                <div className="p-4 bg-white border-b border-gray-200 flex justify-between items-center shrink-0">
+                                    <h2 className="font-semibold text-gray-800 truncate" title={selectedFile.name}>
+                                        {selectedFile.name}
+                                    </h2>
+                                </div>
+                            )}
+
+                            {/* Preview Area */}
+                            <div className="flex-1 overflow-y-auto p-6">
+                                {!selectedFile && (
+                                    <div className="h-full flex items-center justify-center text-gray-400">
+                                        Pilih file dari daftar di sebelah kiri
+                                    </div>
+                                )}
+                                
+                                {loading && (
+                                    <div className="flex justify-center items-center h-full">
+                                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+                                        <span className="ml-2 text-gray-600">Mengunduh & Mengekstrak teks...</span>
+                                    </div>
+                                )}
+
+                                {error && (
+                                    <div className="bg-red-50 border-l-4 border-red-500 p-4 mb-4">
+                                        <p className="text-red-700">{error}</p>
+                                    </div>
+                                )}
+
+                                {!loading && !error && slideContents.length > 0 && (
+                                    <div className="space-y-6">
+                                        {slideContents.map((slide, index) => (
+                                            <div key={index} className="slide-container">
+                                                <h3 className="text-lg font-semibold text-gray-700 border-b pb-2 mb-4">Slide {index + 1}</h3>
+                                                {slide.content.length > 0 ? (
+                                                    <ul className="list-disc pl-5 space-y-1 text-gray-800">
+                                                        {slide.content.map((text, tIndex) => (
+                                                            <li key={tIndex}>{text}</li>
+                                                        ))}
+                                                    </ul>
+                                                ) : (
+                                                    <p className="text-gray-400 italic">[Slide tidak memiliki teks atau hanya berisi gambar]</p>
+                                                )}
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
