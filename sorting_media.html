@@ -1,0 +1,932 @@
+<!doctype html>
+<html lang="id">
+
+<head>
+    <script>window["__codeletBootstrap__"] = JSON.parse('{"A":"A","B":"20260821-05-d0038b4","C":{"Abril Fatface":"YACgEZbkUVE,0","Alfa Slab One":"YACgEYS9sJU,0","Anton":"YACgEcYqQ-A,0","Archivo":"YAHO2-t-jNE,0","Arial":"YAGyDvJ_4Ts,0","Bebas Neue":"YACgESME5ew,0","Bricolage Grotesque":"YAFyMcdwzpc,0","Canva Sans":"YAFLd8sKbwc,2","Caveat":"YALBs2ploWQ,0","Comic Sans MS":"YAHO2VMiyZo,0","Cormorant Garamond":"YAFdJhX-538,0","Courier New":"YAGzXiGs0_8,0","DM Sans":"YAD1aU3sLnI,0","DM Serif Display":"YAD1aYG82rc,0","Forum":"YACgEcnnqB4,0","Fraunces":"YAEul-FRQw4,0","Georgia":"YAGzXkO0pEM,0","Helvetica Neue":"YAFcf6CtJfI,0","Impact":"YAFcfnjI7Vk,0","Inter":"YAFdJvSyp_k,3","Iowan Old Style":"YAGNIFa8j9o,0","Jacques Francois":"YAHO2a5g66Q,0","JetBrains Mono":"YAFdJksXcAk,0","Libre Baskerville":"YACgEUFdPdA,0","Manrope":"YAHO2b2feC4,0","Merriweather":"YACgEXvHxxs,0","Montserrat":"YADLjI9qxTA,0","Nunito":"YACgEX8C5Gg,0","Oleo Script":"YACgEQQ14jI,0","Phantom Sans":"YAHO2E8Pb88,0","Playfair Display":"YACgEYmuCJE,0","Poppins":"YAFdJjbTu24,1","Press Start 2P":"YAFyGr-8pmQ,0","Quicksand":"YADWjpfPmdk,0","Raleway":"YACgEVg3xZg,0","Segoe UI":"YAHNdRD1Klw,0","Source Sans 3":"YAG4lO1Mj10,0","Spectral":"YAHO2rVUHIM,0","Times New Roman":"YAGzXW3gftg,0","Times":"YAGzXW3gftg,0","Ubuntu":"YACgERDU--Q,0","Work Sans":"YAGXhLOKv44,0","Yellowtail":"YACgEYG4kG4,0","ui-monospace":"YADlN8CFZ8Q,0","ui-sans-serif":"YACkoN-xg4g,0"}}');</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Pembelajaran Sorting</title>
+    <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=Fraunces:opsz,wght@9..144,600;9..144,700&amp;display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --ink: #15223b;
+            --navy: #12305a;
+            --blue: #1976d2;
+            --sky: #dceeff;
+            --paper: #f7f4ec;
+            --amber: #f4a623;
+            --coral: #ec6b56;
+            --green: #1f9d73;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "DM Sans", sans-serif;
+            color: var(--ink);
+        }
+
+        .app-shell {
+            width: 100%;
+            min-height: calc(100 * min(var(--vh, 1vh), 1vh));
+            background: var(--paper);
+            overflow-x: hidden;
+        }
+
+        .display-font {
+            font-family: "Fraunces", serif;
+        }
+
+        .grid-bg {
+            background-image: linear-gradient(rgba(18, 48, 90, .05) 1px, transparent 1px), linear-gradient(90deg, rgba(18, 48, 90, .05) 1px, transparent 1px);
+            background-size: 28px 28px;
+        }
+
+        .top-mark {
+            width: 44px;
+            height: 44px;
+            display: grid;
+            place-items: center;
+            border-radius: 14px;
+            background: var(--amber);
+            color: var(--ink);
+        }
+
+        .tab-button {
+            border: 0;
+            border-bottom: 3px solid transparent;
+            background: transparent;
+            transition: .2s ease;
+        }
+
+        .tab-button:hover,
+        .tab-button.active {
+            color: var(--blue);
+            border-bottom-color: var(--amber);
+        }
+
+        .page-panel {
+            display: none;
+            animation: reveal .35s ease both;
+        }
+
+        .page-panel.active {
+            display: block;
+        }
+
+        @keyframes reveal {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .lesson-card {
+            border: 1px solid #dbe1e8;
+            box-shadow: 0 8px 0 rgba(18, 48, 90, .08);
+            transition: transform .2s ease, box-shadow .2s ease;
+        }
+
+        .lesson-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 0 rgba(18, 48, 90, .07);
+        }
+
+        .algorithm-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            flex: 0 0 auto;
+        }
+
+        .concept-number {
+            width: 35px;
+            height: 35px;
+            border-radius: 11px;
+            display: grid;
+            place-items: center;
+            flex: 0 0 auto;
+            font-weight: 700;
+            background: var(--sky);
+            color: var(--blue);
+        }
+
+        .algorithm-button {
+            border: 1px solid #cbd7e6;
+            background: #ffffff;
+            transition: .2s ease;
+        }
+
+        .algorithm-button:hover,
+        .algorithm-button.active {
+            background: var(--navy);
+            border-color: var(--navy);
+            color: #ffffff;
+        }
+
+        .bar-zone {
+            min-height: 270px;
+            display: flex;
+            align-items: end;
+            justify-content: center;
+            gap: 9px;
+            padding: 24px;
+            border-radius: 22px;
+            background: #eff6fc;
+            border: 2px dashed #b9d0e8;
+        }
+
+        .sort-bar {
+            min-width: 28px;
+            width: 9%;
+            max-width: 58px;
+            position: relative;
+            border-radius: 10px 10px 3px 3px;
+            background: var(--blue);
+            transition: height .4s ease, background .2s ease, transform .2s ease;
+        }
+
+        .sort-bar span {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .sort-bar.compare {
+            background: var(--coral);
+            transform: translateY(-5px);
+        }
+
+        .sort-bar.sorted {
+            background: var(--green);
+        }
+
+        .control-button {
+            border: 0;
+            transition: .2s ease;
+        }
+
+        .control-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            filter: brightness(.98);
+        }
+
+        .control-button:disabled {
+            opacity: .5;
+            cursor: not-allowed;
+        }
+
+        .choice {
+            border: 2px solid #dbe1e8;
+            transition: .2s ease;
+        }
+
+        .choice:hover:not(:disabled) {
+            border-color: var(--blue);
+            background: #edf6ff;
+        }
+
+        .choice.correct {
+            border-color: var(--green);
+            background: #e4f5ee;
+        }
+
+        .choice.wrong {
+            border-color: var(--coral);
+            background: #fff0ed;
+        }
+
+        .question-slide {
+            display: none;
+        }
+
+        .question-slide.active {
+            display: block;
+            animation: reveal .3s ease both;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--amber);
+            transition: width .35s ease;
+        }
+
+        .focus-ring:focus-visible {
+            outline: 3px solid var(--amber);
+            outline-offset: 3px;
+        }
+
+        @media (max-width: 640px) {
+            .bar-zone {
+                min-height: 220px;
+                gap: 5px;
+                padding: 16px 8px;
+            }
+
+            .sort-bar {
+                min-width: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body data-template-id="__page-root">
+    <div class="app-shell">
+        <header class="w-full bg-[#12305a] text-white">
+            <div class="max-w-6xl mx-auto px-5 py-5 flex items-center gap-4">
+                <div class="top-mark" aria-hidden="true">
+                    <i data-lucide="arrow-down-up" width="24"></i>
+                </div>
+                <div>
+                    <p data-template-id="header-kicker" class="canva-text text-sm tracking-[.16em] uppercase text-blue-200 m-0">ALGORITMA</p>
+                    <h1 data-template-id="page-title" class="canva-text display-font font-bold m-0">Media Pembelajaran Sorting</h1>
+                </div>
+            </div>
+        </header>
+        <nav class="w-full bg-white border-b border-slate-200 sticky top-0 z-10" aria-label="Navigasi pembelajaran">
+            <div class="max-w-6xl mx-auto px-4 flex justify-around sm:justify-start sm:gap-8">
+                <button type="button" class="tab-button focus-ring active px-3 sm:px-6 py-4 font-bold text-sm" data-tab="materi">
+                    <span data-template-id="tab-materi" class="canva-text">Materi</span>
+                </button>
+                <button type="button" class="tab-button focus-ring px-3 sm:px-6 py-4 font-bold text-sm" data-tab="simulasi">
+                    <span data-template-id="tab-simulasi" class="canva-text">Simulasi</span>
+                </button>
+                <button type="button" class="tab-button focus-ring px-3 sm:px-6 py-4 font-bold text-sm" data-tab="kuis">
+                    <span data-template-id="tab-kuis" class="canva-text">Kuis</span>
+                </button>
+            </div>
+        </nav>
+        <main class="w-full">
+            <section id="materi" class="page-panel active grid-bg">
+                <div class="max-w-6xl mx-auto px-5 py-10 sm:py-14">
+                    <div class="max-w-3xl mb-9">
+                        <p data-template-id="materi-eyebrow" class="canva-text text-[#1976d2] font-bold tracking-[.14em] uppercase text-sm mb-2">PENGANTAR</p>
+                        <h2 data-template-id="materi-title" class="canva-text display-font font-bold mb-3">Mengenal Pengurutan Data</h2>
+                        <p data-template-id="materi-intro" class="canva-text text-slate-600 leading-relaxed text-lg">Sorting (pengurutan) adalah proses mengatur sekumpulan data atau objek ke dalam urutan tertentu, misalnya dari terkecil ke terbesar (ascending) atau sebaliknya (descending).</p>
+                    </div>
+                    <article data-template-id="definition-card" class="canva-card bg-white rounded-3xl p-6 sm:p-8 mb-10 lesson-card">
+                        <div class="flex gap-4 items-start">
+                            <div class="p-3 bg-[#dceeff] text-[#1976d2] rounded-2xl" aria-hidden="true">
+                                <i data-lucide="list-ordered" width="27"></i>
+                            </div>
+                            <div>
+                                <h3 data-template-id="definition-title" class="canva-text font-bold mb-2">Apa itu Sorting?</h3>
+                                <p data-template-id="definition-text" class="canva-text text-slate-600 leading-relaxed mb-0">Proses menyusun elemen data secara berurutan berdasarkan nilai dari kunci (key) masing-masing elemen.</p>
+                            </div>
+                        </div>
+                    </article>
+                    <section aria-labelledby="dasar-title" class="mb-12">
+                        <div class="mb-6">
+                            <p data-template-id="basic-eyebrow" class="canva-text text-[#1976d2] font-bold tracking-[.14em] uppercase text-sm mb-2">KONSEP</p>
+                            <h2 id="dasar-title" data-template-id="basic-title" class="canva-text display-font font-bold">Konsep Dasar</h2>
+                        </div>
+                        <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+                            <article data-template-id="array-card" class="canva-card bg-white rounded-3xl p-6 lesson-card">
+                                <div class="flex gap-3 items-center mb-4">
+                                    <span class="concept-number">01</span>
+                                    <h3 data-template-id="array-title" class="canva-text font-bold">Array</h3>
+                                </div>
+                                <p data-template-id="array-text" class="canva-text text-slate-600 leading-relaxed m-0">Struktur data yang menyimpan sekumpulan elemen dengan tipe yang sama.</p>
+                            </article>
+                            <article data-template-id="index-card" class="canva-card bg-white rounded-3xl p-6 lesson-card">
+                                <div class="flex gap-3 items-center mb-4">
+                                    <span class="concept-number">02</span>
+                                    <h3 data-template-id="index-title" class="canva-text font-bold">Indeks</h3>
+                                </div>
+                                <p data-template-id="index-text" class="canva-text text-slate-600 leading-relaxed m-0">Posisi suatu elemen di dalam array, biasanya dimulai dari 0.</p>
+                            </article>
+                            <article data-template-id="swap-card" class="canva-card bg-white rounded-3xl p-6 lesson-card">
+                                <div class="flex gap-3 items-center mb-4">
+                                    <span class="concept-number">03</span>
+                                    <h3 data-template-id="swap-title" class="canva-text font-bold">Pertukaran (Swap)</h3>
+                                </div>
+                                <p data-template-id="swap-text" class="canva-text text-slate-600 leading-relaxed m-0">Proses menukar posisi dua buah elemen dalam struktur data.</p>
+                            </article>
+                            <article data-template-id="complexity-card" class="canva-card bg-white rounded-3xl p-6 lesson-card">
+                                <div class="flex gap-3 items-center mb-4">
+                                    <span class="concept-number">04</span>
+                                    <h3 data-template-id="complexity-title" class="canva-text font-bold">Kompleksitas Waktu</h3>
+                                </div>
+                                <p data-template-id="complexity-text" class="canva-text text-slate-600 leading-relaxed m-0">Ukuran seberapa efisien sebuah algoritma berjalan berdasarkan jumlah data.</p>
+                            </article>
+                            <article data-template-id="pseudo-card" class="canva-card bg-white rounded-3xl p-6 lesson-card">
+                                <div class="flex gap-3 items-center mb-4">
+                                    <span class="concept-number">05</span>
+                                    <h3 data-template-id="pseudo-title" class="canva-text font-bold">Pseudocode</h3>
+                                </div>
+                                <p data-template-id="pseudo-text" class="canva-text text-slate-600 leading-relaxed m-0">Cara penulisan algoritma yang menyerupai bahasa pemrograman tingkat tinggi.</p>
+                            </article>
+                            <article data-template-id="nested-card" class="canva-card bg-white rounded-3xl p-6 lesson-card">
+                                <div class="flex gap-3 items-center mb-4">
+                                    <span class="concept-number">06</span>
+                                    <h3 data-template-id="nested-title" class="canva-text font-bold">Nested Loop</h3>
+                                </div>
+                                <p data-template-id="nested-text" class="canva-text text-slate-600 leading-relaxed m-0">Perulangan di dalam perulangan, sering digunakan dalam algoritma sorting.</p>
+                            </article>
+                        </div>
+                    </section>
+                    <section aria-labelledby="comparison-title" class="mb-12">
+                        <div class="mb-6">
+                            <p data-template-id="comparison-eyebrow" class="canva-text text-[#1976d2] font-bold tracking-[.14em] uppercase text-sm mb-2">ALGORITMA</p>
+                            <h2 id="comparison-title" data-template-id="comparison-title-text" class="canva-text display-font font-bold">Comparison Sort</h2>
+                        </div>
+                        <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+                            <article data-template-id="bubble-card" class="canva-card bg-white rounded-3xl p-6 lesson-card">
+                                <div class="flex items-center gap-3 mb-4">
+                                    <span class="algorithm-dot bg-[#ec6b56]"></span>
+                                    <h3 data-template-id="bubble-title" class="canva-text font-bold">Bubble Sort</h3>
+                                </div>
+                                <p data-template-id="bubble-text" class="canva-text text-slate-600 leading-relaxed mb-4">Bandingkan elemen bersebelahan, tukar jika urutan salah.</p>
+                                <div class="rounded-xl bg-[#fff0ed] p-3">
+                                    <p data-template-id="bubble-example" class="canva-text text-sm font-medium text-[#8e3022] m-0">O(n²)</p>
+                                </div>
+                            </article>
+                            <article data-template-id="selection-card" class="canva-card bg-white rounded-3xl p-6 lesson-card">
+                                <div class="flex items-center gap-3 mb-4">
+                                    <span class="algorithm-dot bg-[#f4a623]"></span>
+                                    <h3 data-template-id="selection-title" class="canva-text font-bold">Selection Sort</h3>
+                                </div>
+                                <p data-template-id="selection-text" class="canva-text text-slate-600 leading-relaxed mb-4">Cari elemen terkecil, tempatkan di posisi terdepan.</p>
+                                <div class="rounded-xl bg-[#fff6df] p-3">
+                                    <p data-template-id="selection-example" class="canva-text text-sm font-medium text-[#805100] m-0">O(n²)</p>
+                                </div>
+                            </article>
+                            <article data-template-id="insertion-card" class="canva-card bg-white rounded-3xl p-6 lesson-card">
+                                <div class="flex items-center gap-3 mb-4">
+                                    <span class="algorithm-dot bg-[#1f9d73]"></span>
+                                    <h3 data-template-id="insertion-title" class="canva-text font-bold">Insertion Sort</h3>
+                                </div>
+                                <p data-template-id="insertion-text" class="canva-text text-slate-600 leading-relaxed mb-4">Sisipkan elemen ke posisi yang tepat pada bagian array yang sudah terurut.</p>
+                                <div class="rounded-xl bg-[#e4f5ee] p-3">
+                                    <p data-template-id="insertion-example" class="canva-text text-sm font-medium text-[#16664c] m-0">O(n²)</p>
+                                </div>
+                            </article>
+                            <article data-template-id="merge-card" class="canva-card bg-white rounded-3xl p-6 lesson-card">
+                                <div class="flex items-center gap-3 mb-4">
+                                    <span class="algorithm-dot bg-[#1976d2]"></span>
+                                    <h3 data-template-id="merge-title" class="canva-text font-bold">Merge Sort</h3>
+                                </div>
+                                <p data-template-id="merge-text" class="canva-text text-slate-600 leading-relaxed mb-4">Bagi array menjadi dua, urutkan masing-masing, lalu gabungkan.</p>
+                                <div class="rounded-xl bg-[#e7f2fd] p-3">
+                                    <p data-template-id="merge-example" class="canva-text text-sm font-medium text-[#175c9f] m-0">O(n log n)</p>
+                                </div>
+                            </article>
+                            <article data-template-id="quick-card" class="canva-card bg-white rounded-3xl p-6 lesson-card">
+                                <div class="flex items-center gap-3 mb-4">
+                                    <span class="algorithm-dot bg-[#7047a8]"></span>
+                                    <h3 data-template-id="quick-title" class="canva-text font-bold">Quick Sort</h3>
+                                </div>
+                                <p data-template-id="quick-text" class="canva-text text-slate-600 leading-relaxed mb-4">Pilih pivot, partisi array, lalu urutkan masing-masing bagian.</p>
+                                <div class="rounded-xl bg-[#f1ebfa] p-3">
+                                    <p data-template-id="quick-example" class="canva-text text-sm font-medium text-[#593289] m-0">O(n log n)</p>
+                                </div>
+                            </article>
+                            <article data-template-id="heap-card" class="canva-card bg-white rounded-3xl p-6 lesson-card">
+                                <div class="flex items-center gap-3 mb-4">
+                                    <span class="algorithm-dot bg-[#138d8d]"></span>
+                                    <h3 data-template-id="heap-title" class="canva-text font-bold">Heap Sort</h3>
+                                </div>
+                                <p data-template-id="heap-text" class="canva-text text-slate-600 leading-relaxed mb-4">Ubah array menjadi struktur heap, lalu ambil elemen terbesar satu per satu.</p>
+                                <div class="rounded-xl bg-[#e1f5f3] p-3">
+                                    <p data-template-id="heap-example" class="canva-text text-sm font-medium text-[#0e6666] m-0">O(n log n)</p>
+                                </div>
+                            </article>
+                        </div>
+                    </section>
+                    <section aria-labelledby="special-title" class="mb-12">
+                        <div class="mb-6">
+                            <p data-template-id="special-eyebrow" class="canva-text text-[#1976d2] font-bold tracking-[.14em] uppercase text-sm mb-2">ALGORITMA</p>
+                            <h2 id="special-title" data-template-id="special-title-text" class="canva-text display-font font-bold">Linear / Non-Comparison Sort</h2>
+                        </div>
+                        <div class="grid md:grid-cols-3 gap-6 mb-7">
+                            <article data-template-id="counting-card" class="canva-card bg-white rounded-3xl p-6 lesson-card">
+                                <h3 data-template-id="counting-title" class="canva-text font-bold mb-3">Counting Sort</h3>
+                                <p data-template-id="counting-text" class="canva-text text-slate-600 leading-relaxed m-0">Menghitung jumlah kemunculan setiap nilai unik.</p>
+                            </article>
+                            <article data-template-id="radix-card" class="canva-card bg-white rounded-3xl p-6 lesson-card">
+                                <h3 data-template-id="radix-title" class="canva-text font-bold mb-3">Radix Sort</h3>
+                                <p data-template-id="radix-text" class="canva-text text-slate-600 leading-relaxed m-0">Mengurutkan digit per digit, dari paling tidak signifikan.</p>
+                            </article>
+                            <article data-template-id="bucket-card" class="canva-card bg-white rounded-3xl p-6 lesson-card">
+                                <h3 data-template-id="bucket-title" class="canva-text font-bold mb-3">Bucket Sort</h3>
+                                <p data-template-id="bucket-text" class="canva-text text-slate-600 leading-relaxed m-0">Membagi elemen ke dalam ember dan mengurutkan tiap ember.</p>
+                            </article>
+                        </div>
+                        <div class="grid md:grid-cols-3 gap-6">
+                            <article data-template-id="stable-card" class="canva-card bg-[#12305a] rounded-3xl p-6 lesson-card">
+                                <h3 data-template-id="stable-title" class="canva-text font-bold mb-3 text-white">Stabilitas</h3>
+                                <p data-template-id="stable-text" class="canva-text leading-relaxed m-0 text-white">Algoritma stabil menjaga posisi awal untuk nilai yang sama.</p>
+                            </article>
+                            <article data-template-id="inplace-card" class="canva-card bg-white rounded-3xl p-6 lesson-card">
+                                <h3 data-template-id="inplace-title" class="canva-text font-bold mb-3">In-Place Sorting</h3>
+                                <p data-template-id="inplace-text" class="canva-text text-slate-600 leading-relaxed m-0">Tidak memerlukan memori tambahan yang signifikan.</p>
+                            </article>
+                            <article data-template-id="storage-card" class="canva-card bg-white rounded-3xl p-6 lesson-card">
+                                <h3 data-template-id="storage-title" class="canva-text font-bold mb-3">Penggunaan Memori</h3>
+                                <p data-template-id="storage-text" class="canva-text text-slate-600 leading-relaxed m-0">Space complexity untuk menyimpan data sementara saat sorting.</p>
+                            </article>
+                        </div>
+                    </section>
+                </div>
+            </section>
+            <section id="simulasi" class="page-panel">
+                <div class="max-w-6xl mx-auto px-5 py-10 sm:py-14">
+                    <p data-template-id="sim-eyebrow" class="canva-text text-[#1976d2] font-bold tracking-[.14em] uppercase text-sm mb-2">PRAKTIK</p>
+                    <h2 data-template-id="sim-title" class="canva-text display-font font-bold mb-3">Simulasi Sorting</h2>
+                    <p data-template-id="sim-intro" class="canva-text text-slate-600 max-w-3xl leading-relaxed mb-7">Pilih algoritma dan lihat bagaimana proses pengurutan bekerja secara visual.</p>
+                    <div class="flex flex-wrap gap-2 mb-6" role="group" aria-label="Pilih algoritma sorting">
+                        <button type="button" class="algorithm-button focus-ring active rounded-full px-4 py-2 font-bold text-sm" data-algorithm="bubble">Bubble Sort</button>
+                        <button type="button" class="algorithm-button focus-ring rounded-full px-4 py-2 font-bold text-sm" data-algorithm="insertion">Insertion Sort</button>
+                        <button type="button" class="algorithm-button focus-ring rounded-full px-4 py-2 font-bold text-sm" data-algorithm="selection">Selection Sort</button>
+                        <button type="button" class="algorithm-button focus-ring rounded-full px-4 py-2 font-bold text-sm" data-algorithm="merge">Merge Sort</button>
+                        <button type="button" class="algorithm-button focus-ring rounded-full px-4 py-2 font-bold text-sm" data-algorithm="quick">Quick Sort</button>
+                        <button type="button" class="algorithm-button focus-ring rounded-full px-4 py-2 font-bold text-sm" data-algorithm="counting">Counting Sort</button>
+                        <button type="button" class="algorithm-button focus-ring rounded-full px-4 py-2 font-bold text-sm" data-algorithm="radix">Radix Sort</button>
+                        <button type="button" class="algorithm-button focus-ring rounded-full px-4 py-2 font-bold text-sm" data-algorithm="bucket">Bucket Sort</button>
+                    </div>
+                    <div class="grid lg:grid-cols-[1fr_310px] gap-6">
+                        <section data-template-id="simulation-panel" class="canva-panel bg-white rounded-3xl p-5 sm:p-7 border border-slate-200 shadow-sm" aria-label="Panel simulasi sorting">
+                            <div class="flex justify-between gap-4 flex-wrap mb-5">
+                                <div>
+                                    <h3 id="algorithm-name" class="font-bold text-xl text-[#12305a]">Bubble Sort</h3>
+                                    <p id="algorithm-summary" class="text-slate-500 text-sm mt-1 mb-0">Bandingkan dua angka yang bersebelahan.</p>
+                                </div>
+                                <p id="step-count" class="rounded-full bg-[#dceeff] px-4 py-2 text-sm font-bold text-[#175c9f] m-0">Langkah 0</p>
+                            </div>
+                            <div id="bar-zone" class="bar-zone" aria-label="Visualisasi data sorting"></div>
+                            <div class="flex flex-wrap gap-3 mt-6">
+                                <button id="random-btn" type="button" class="control-button focus-ring rounded-xl bg-[#e7f2fd] text-[#175c9f] px-4 py-3 font-bold flex items-center gap-2">
+                                    <i data-lucide="shuffle" width="18"></i> <span data-template-id="random-label" class="canva-text">Acak</span>
+                                </button>
+                                <button id="step-btn" type="button" class="control-button focus-ring rounded-xl bg-[#12305a] text-white px-4 py-3 font-bold flex items-center gap-2">
+                                    <i data-lucide="step-forward" width="18"></i> <span data-template-id="step-label" class="canva-text">Langkah Berikutnya</span>
+                                </button>
+                                <button id="play-btn" type="button" class="control-button focus-ring rounded-xl bg-[#f4a623] text-[#15223b] px-4 py-3 font-bold flex items-center gap-2">
+                                    <i data-lucide="play" width="18"></i> <span id="play-text">Putar otomatis</span>
+                                </button>
+                                <button id="reset-btn" type="button" class="control-button focus-ring rounded-xl bg-slate-100 text-slate-700 px-4 py-3 font-bold flex items-center gap-2">
+                                    <i data-lucide="rotate-ccw" width="18"></i> <span data-template-id="reset-label" class="canva-text">Ulangi</span>
+                                </button>
+                            </div>
+                        </section>
+                        <aside data-template-id="step-panel" class="canva-panel rounded-3xl p-6 bg-[#102946]">
+                            <p data-template-id="step-panel-label" class="canva-text text-blue-200 font-bold text-xs tracking-[.14em] uppercase mb-3">KETERANGAN</p>
+                            <p id="step-description" class="text-white text-lg leading-relaxed font-medium">Siapkan data, kemudian tekan tombol langkah berikutnya.</p>
+                            <div class="mt-6 pt-5 border-t border-blue-300/30">
+                                <p data-template-id="color-guide-title" class="canva-text text-white font-bold mb-3">Panduan Warna</p>
+                                <div class="space-y-2 text-sm">
+                                    <div class="flex items-center gap-2">
+                                        <span class="w-3 h-3 rounded-full bg-[#1976d2]"></span> <span data-template-id="guide-normal" class="canva-text text-blue-100">Belum terurut</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <span class="w-3 h-3 rounded-full bg-[#ec6b56]"></span> <span data-template-id="guide-compare" class="canva-text text-blue-100">Sedang dibandingkan</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <span class="w-3 h-3 rounded-full bg-[#1f9d73]"></span> <span data-template-id="guide-sorted" class="canva-text text-blue-100">Sudah terurut</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </aside>
+                    </div>
+                </div>
+            </section>
+            <section id="kuis" class="page-panel grid-bg">
+                <div class="max-w-3xl mx-auto px-5 py-10 sm:py-14">
+                    <div id="quiz-area">
+                        <p data-template-id="quiz-eyebrow" class="canva-text text-[#1976d2] font-bold tracking-[.14em] uppercase text-sm mb-2">LATIHAN</p>
+                        <h2 data-template-id="quiz-title" class="canva-text display-font font-bold mb-3">Kuis Sorting</h2>
+                        <p data-template-id="quiz-intro" class="canva-text text-slate-600 leading-relaxed mb-6">Uji pemahamanmu tentang berbagai algoritma sorting.</p>
+                        <div class="h-3 rounded-full overflow-hidden bg-slate-200 mb-3">
+                            <div id="progress-fill" class="progress-fill" style="width:33.33%"></div>
+                        </div>
+                        <p id="quiz-counter" class="text-sm font-bold text-[#12305a] mb-6">Soal 1 dari 3</p>
+                        <div class="question-slide active" data-correct="b">
+                            <article data-template-id="q1-card" class="canva-card bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-200">
+                                <h3 data-template-id="q1-text" class="canva-text font-bold leading-relaxed mb-6">Algoritma sorting mana yang beroperasi dengan membagi array menjadi dua secara terus menerus?</h3>
+                                <div class="space-y-3">
+                                    <button class="choice focus-ring w-full text-left rounded-xl p-4 font-medium" data-option="a"><span data-template-id="q1a" class="canva-text">Bubble Sort</span></button>
+                                    <button class="choice focus-ring w-full text-left rounded-xl p-4 font-medium" data-option="b"><span data-template-id="q1b" class="canva-text">Merge Sort</span></button>
+                                    <button class="choice focus-ring w-full text-left rounded-xl p-4 font-medium" data-option="c"><span data-template-id="q1c" class="canva-text">Insertion Sort</span></button>
+                                </div>
+                            </article>
+                        </div>
+                        <div class="question-slide" data-correct="b">
+                            <article data-template-id="q2-card" class="canva-card bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-200">
+                                <h3 data-template-id="q2-text" class="canva-text font-bold leading-relaxed mb-6">Manakah kompleksitas waktu terbaik dari algoritma Merge Sort?</h3>
+                                <div class="space-y-3">
+                                    <button class="choice focus-ring w-full text-left rounded-xl p-4 font-medium" data-option="a"><span data-template-id="q2a" class="canva-text">O(n)</span></button>
+                                    <button class="choice focus-ring w-full text-left rounded-xl p-4 font-medium" data-option="b"><span data-template-id="q2b" class="canva-text">O(n log n)</span></button>
+                                    <button class="choice focus-ring w-full text-left rounded-xl p-4 font-medium" data-option="c"><span data-template-id="q2c" class="canva-text">O(n²)</span></button>
+                                </div>
+                            </article>
+                        </div>
+                        <div class="question-slide" data-correct="c">
+                            <article data-template-id="q3-card" class="canva-card bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-200">
+                                <h3 data-template-id="q3-text" class="canva-text font-bold leading-relaxed mb-6">Algoritma sorting yang tidak berbasis perbandingan (non-comparison sort) adalah...</h3>
+                                <div class="space-y-3">
+                                    <button class="choice focus-ring w-full text-left rounded-xl p-4 font-medium" data-option="a"><span data-template-id="q3a" class="canva-text">Quick Sort</span></button>
+                                    <button class="choice focus-ring w-full text-left rounded-xl p-4 font-medium" data-option="b"><span data-template-id="q3b" class="canva-text">Selection Sort</span></button>
+                                    <button class="choice focus-ring w-full text-left rounded-xl p-4 font-medium" data-option="c"><span data-template-id="q3c" class="canva-text">Counting Sort</span></button>
+                                </div>
+                            </article>
+                        </div>
+                        <p id="feedback" class="min-h-[28px] font-bold mt-5" aria-live="polite"></p>
+                        <button id="next-btn" type="button" class="hidden control-button focus-ring rounded-xl bg-[#12305a] text-white px-5 py-3 font-bold">
+                            <span data-template-id="next-label" class="canva-text">Soal Berikutnya</span>
+                        </button>
+                    </div>
+                    <div id="result-area" class="hidden text-center bg-white rounded-3xl p-8 sm:p-12 shadow-sm border border-slate-200">
+                        <div class="w-16 h-16 rounded-full bg-[#fff0cf] text-[#a96800] mx-auto grid place-items-center mb-5" aria-hidden="true">
+                            <i data-lucide="award" width="32"></i>
+                        </div>
+                        <h2 data-template-id="result-title" class="canva-text display-font font-bold mb-3">Hasil Kuis</h2>
+                        <p id="score-display" class="display-font text-5xl font-bold text-[#1976d2] my-4">0 / 3</p>
+                        <p id="result-message" class="text-slate-600 mb-7"></p>
+                        <button id="retry-btn" type="button" class="control-button focus-ring rounded-xl bg-[#f4a623] text-[#15223b] px-5 py-3 font-bold">
+                            <span data-template-id="retry-label" class="canva-text">Ulangi Kuis</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <footer class="w-full bg-[#102946] text-blue-100">
+            <div class="max-w-6xl mx-auto px-5 py-5 text-sm">
+                <p data-template-id="footer-text" class="canva-text m-0">© 2026 Media Pembelajaran Sorting. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+    <script>
+        document.querySelectorAll(".tab-button").forEach((button) => {
+            button.addEventListener("click", () => {
+                document.querySelectorAll(".tab-button").forEach((item) => item.classList.remove("active"));
+                document.querySelectorAll(".page-panel").forEach((item) => item.classList.remove("active"));
+                button.classList.add("active");
+                document.getElementById(button.dataset.tab).classList.add("active");
+            });
+        });
+
+        const algorithmInfo = {
+            bubble: {
+                name: "Bubble Sort",
+                summary: "Bandingkan dua angka yang bersebelahan dan tukar saat urutannya salah."
+            },
+            insertion: {
+                name: "Insertion Sort",
+                summary: "Ambil key, geser nilai yang lebih besar, lalu sisipkan key pada posisi tepat."
+            },
+            merge: {
+                name: "Merge Sort",
+                summary: "Bagi data menjadi bagian kecil, urutkan, lalu gabungkan kembali."
+            },
+            quick: {
+                name: "Quick Sort",
+                summary: "Gunakan pivot untuk memisahkan nilai kecil dan besar sebelum mengurutkannya."
+            },
+            selection: {
+                name: "Selection Sort",
+                summary: "Cari nilai terkecil dari bagian yang belum terurut, lalu tempatkan pada posisi berikutnya."
+            },
+            counting: {
+                name: "Counting Sort",
+                summary: "Hitung frekuensi setiap nilai, lalu susun kembali data berdasarkan jumlahnya."
+            },
+            radix: {
+                name: "Radix Sort",
+                summary: "Urutkan data berdasarkan digit dari posisi paling rendah ke posisi berikutnya."
+            },
+            bucket: {
+                name: "Bucket Sort",
+                summary: "Bagi data ke beberapa bucket, urutkan tiap bucket, lalu gabungkan hasilnya."
+            }
+        };
+
+        let originalData = [58, 24, 71, 37, 16, 49, 82];
+        let steps = [];
+        let currentStep = 0;
+        let autoplay = null;
+        let selectedAlgorithm = "bubble";
+
+        function buildSteps(type, values) {
+            let arr = [...values];
+            const result = [{
+                array: [...arr],
+                compare: [],
+                sorted: [],
+                text: "Data awal siap untuk diurutkan."
+            }];
+
+            if (type === "bubble") {
+                for (let end = arr.length - 1; end > 0; end--) {
+                    for (let i = 0; i < end; i++) {
+                        result.push({
+                            array: [...arr],
+                            compare: [i, i + 1],
+                            sorted: Array.from({ length: arr.length - 1 - end }, (_, k) => arr.length - 1 - k),
+                            text: `Bandingkan ${arr[i]} dan ${arr[i + 1]}.`
+                        });
+
+                        if (arr[i] > arr[i + 1]) {
+                            [arr[i], arr[i + 1]] = [arr[i + 1], arr[i]];
+                            result.push({
+                                array: [...arr],
+                                compare: [i, i + 1],
+                                sorted: [],
+                                text: "Tukar karena angka di kiri lebih besar."
+                            });
+                        }
+                    }
+                }
+            } else if (type === "insertion") {
+                for (let i = 1; i < arr.length; i++) {
+                    const key = arr[i];
+                    let j = i - 1;
+                    result.push({
+                        array: [...arr],
+                        compare: [i, j],
+                        sorted: Array.from({ length: i }, (_, k) => k),
+                        text: `Ambil ${key} sebagai key yang akan disisipkan.`
+                    });
+
+                    while (j >= 0 && arr[j] > key) {
+                        arr[j + 1] = arr[j];
+                        result.push({
+                            array: [...arr],
+                            compare: [j, j + 1],
+                            sorted: [],
+                            text: "Geser nilai yang lebih besar satu posisi ke kanan."
+                        });
+                        j--;
+                    }
+
+                    arr[j + 1] = key;
+                    result.push({
+                        array: [...arr],
+                        compare: [j + 1],
+                        sorted: Array.from({ length: i + 1 }, (_, k) => k),
+                        text: `Sisipkan key ${key} pada posisi yang tepat.`
+                    });
+                }
+            } else if (type === "selection") {
+                for (let i = 0; i < arr.length - 1; i++) {
+                    let minIndex = i;
+                    for (let j = i + 1; j < arr.length; j++) {
+                        result.push({ array: [...arr], compare: [minIndex, j], sorted: Array.from({ length: i }, (_, k) => k), text: `Bandingkan ${arr[minIndex]} dan ${arr[j]}.` });
+                        if (arr[j] < arr[minIndex]) minIndex = j;
+                    }
+                    [arr[i], arr[minIndex]] = [arr[minIndex], arr[i]];
+                    result.push({ array: [...arr], compare: [i], sorted: Array.from({ length: i + 1 }, (_, k) => k), text: `Tempatkan nilai terkecil ${arr[i]} pada posisi ${i + 1}.` });
+                }
+            } else if (type === "merge") {
+                function mergeRange(left, right) {
+                    if (right - left <= 1) return;
+                    const middle = Math.floor((left + right) / 2);
+                    result.push({ array: [...arr], compare: Array.from({ length: right - left }, (_, k) => left + k), sorted: [], text: `Bagi bagian indeks ${left + 1}–${right} menjadi dua.` });
+                    mergeRange(left, middle);
+                    mergeRange(middle, right);
+                    const merged = [];
+                    let i = left, j = middle;
+                    while (i < middle || j < right) {
+                        result.push({ array: [...arr], compare: [i < middle ? i : j, j < right ? j : i], sorted: [], text: "Bandingkan elemen dari dua bagian yang sudah terurut." });
+                        if (j >= right || (i < middle && arr[i] <= arr[j])) merged.push(arr[i++]);
+                        else merged.push(arr[j++]);
+                    }
+                    merged.forEach((value, k) => { arr[left + k] = value; });
+                    result.push({ array: [...arr], compare: [], sorted: Array.from({ length: right - left }, (_, k) => left + k), text: `Gabungkan hasil pada indeks ${left + 1}–${right}.` });
+                }
+                mergeRange(0, arr.length);
+            } else if (type === "quick") {
+                function quickRange(left, right) {
+                    if (left >= right) return;
+                    const pivot = arr[right];
+                    let boundary = left;
+                    result.push({ array: [...arr], compare: [right], sorted: [], text: `Pilih ${pivot} sebagai pivot.` });
+                    for (let i = left; i < right; i++) {
+                        result.push({ array: [...arr], compare: [i, right], sorted: [], text: `Bandingkan ${arr[i]} dengan pivot ${pivot}.` });
+                        if (arr[i] < pivot) { [arr[i], arr[boundary]] = [arr[boundary], arr[i]]; boundary++; }
+                    }
+                    [arr[boundary], arr[right]] = [arr[right], arr[boundary]];
+                    result.push({ array: [...arr], compare: [boundary], sorted: [boundary], text: `Pivot ${pivot} berada pada posisi akhirnya.` });
+                    quickRange(left, boundary - 1);
+                    quickRange(boundary + 1, right);
+                }
+                quickRange(0, arr.length - 1);
+            } else if (type === "counting") {
+                const max = Math.max(...arr);
+                const counts = Array(max + 1).fill(0);
+                arr.forEach((value) => { counts[value]++; result.push({ array: [...arr], compare: [arr.indexOf(value)], sorted: [], text: `Hitung kemunculan nilai ${value}.` }); });
+                let outputIndex = 0;
+                counts.forEach((count, value) => { for (let n = 0; n < count; n++) { arr[outputIndex] = value; result.push({ array: [...arr], compare: [outputIndex], sorted: Array.from({ length: outputIndex }, (_, k) => k), text: `Tempatkan nilai ${value} dari tabel frekuensi.` }); outputIndex++; } });
+            } else if (type === "radix") {
+                let divisor = 1;
+                const max = Math.max(...arr);
+                while (Math.floor(max / divisor) > 0) {
+                    const buckets = Array.from({ length: 10 }, () => []);
+                    arr.forEach((value, index) => { const digit = Math.floor(value / divisor) % 10; buckets[digit].push(value); result.push({ array: [...arr], compare: [index], sorted: [], text: `Masukkan ${value} ke bucket digit ${digit}.` }); });
+                    arr = buckets.flat();
+                    result.push({ array: [...arr], compare: [], sorted: [], text: `Gabungkan bucket setelah memproses digit ${divisor}.` });
+                    divisor *= 10;
+                }
+            } else if (type === "bucket") {
+                const bucketCount = 3;
+                const buckets = Array.from({ length: bucketCount }, () => []);
+                const max = Math.max(...arr);
+                arr.forEach((value, index) => { const bucket = Math.min(bucketCount - 1, Math.floor(value / (max + 1) * bucketCount)); buckets[bucket].push(value); result.push({ array: [...arr], compare: [index], sorted: [], text: `Masukkan ${value} ke bucket ${bucket + 1}.` }); });
+                buckets.forEach((bucket, index) => { bucket.sort((a, b) => a - b); result.push({ array: [...arr], compare: [], sorted: [], text: `Urutkan isi bucket ${index + 1}: ${bucket.join(", ")}.` }); });
+                arr = buckets.flat();
+            }
+
+            result.push({
+                array: [...arr].sort((a, b) => a - b),
+                compare: [],
+                sorted: Array.from({ length: arr.length }, (_, i) => i),
+                text: "Selesai! Semua data sudah terurut dari kecil ke besar."
+            });
+
+            return result;
+        }
+
+        function renderStep() {
+            const step = steps[currentStep];
+            const zone = document.getElementById("bar-zone");
+            zone.replaceChildren();
+
+            step.array.forEach((number, index) => {
+                const bar = document.createElement("div");
+                bar.className = "sort-bar" +
+                    (step.compare.includes(index) ? " compare" : "") +
+                    (step.sorted.includes(index) ? " sorted" : "");
+                bar.style.height = `${Math.max(45, number * 2.15)}px`;
+
+                const label = document.createElement("span");
+                label.textContent = number;
+                bar.appendChild(label);
+                zone.appendChild(bar);
+            });
+
+            document.getElementById("step-count").textContent = `Langkah ${currentStep} / ${steps.length - 1}`;
+            document.getElementById("step-description").textContent = step.text;
+            document.getElementById("step-btn").disabled = currentStep === steps.length - 1;
+
+            if (currentStep === steps.length - 1) stopAuto();
+        }
+
+        function resetSimulation() {
+            stopAuto();
+            currentStep = 0;
+            steps = buildSteps(selectedAlgorithm, originalData);
+            renderStep();
+        }
+
+        function nextStep() {
+            if (currentStep < steps.length - 1) {
+                currentStep++;
+                renderStep();
+            }
+        }
+
+        function stopAuto() {
+            if (autoplay) {
+                clearInterval(autoplay);
+                autoplay = null;
+            }
+
+            const playButton = document.getElementById("play-btn");
+            document.getElementById("play-text").textContent = "Putar otomatis";
+            const icon = playButton.querySelector("svg");
+            if (icon) icon.outerHTML = '<i data-lucide="play" width="18"></i>';
+            if (window.lucide) lucide.createIcons();
+        }
+
+        document.querySelectorAll("[data-algorithm]").forEach((button) => {
+            button.addEventListener("click", () => {
+                selectedAlgorithm = button.dataset.algorithm;
+
+                document.querySelectorAll("[data-algorithm]").forEach((item) => {
+                    item.classList.toggle("active", item === button);
+                });
+
+                document.getElementById("algorithm-name").textContent = algorithmInfo[selectedAlgorithm].name;
+                document.getElementById("algorithm-summary").textContent = algorithmInfo[selectedAlgorithm].summary;
+                resetSimulation();
+            });
+        });
+
+        document.getElementById("random-btn").addEventListener("click", () => {
+            originalData = Array.from({ length: 7 }, () => Math.floor(Math.random() * 75) + 10);
+            resetSimulation();
+        });
+
+        document.getElementById("step-btn").addEventListener("click", nextStep);
+        document.getElementById("reset-btn").addEventListener("click", resetSimulation);
+
+        document.getElementById("play-btn").addEventListener("click", () => {
+            if (autoplay) {
+                stopAuto();
+                return;
+            }
+
+            if (currentStep === steps.length - 1) resetSimulation();
+
+            document.getElementById("play-text").textContent = "Jeda";
+            autoplay = setInterval(nextStep, 850);
+        });
+
+        let questionIndex = 0;
+        let score = 0;
+        let answered = false;
+        const slides = [...document.querySelectorAll(".question-slide")];
+
+        function showQuestion(index) {
+            slides.forEach((slide, slideIndex) => {
+                slide.classList.toggle("active", slideIndex === index);
+            });
+
+            document.getElementById("quiz-counter").textContent = `Soal ${index + 1} dari 3`;
+            document.getElementById("progress-fill").style.width = `${((index + 1) / 3) * 100}%`;
+            document.getElementById("feedback").textContent = "";
+            document.getElementById("next-btn").classList.add("hidden");
+            answered = false;
+        }
+
+        document.querySelectorAll(".choice").forEach((choice) => {
+            choice.addEventListener("click", () => {
+                if (answered) return;
+                answered = true;
+
+                const slide = slides[questionIndex];
+                const correct = slide.dataset.correct;
+
+                slide.querySelectorAll(".choice").forEach((button) => {
+                    button.disabled = true;
+                    if (button.dataset.option === correct) button.classList.add("correct");
+                });
+
+                const feedback = document.getElementById("feedback");
+
+                if (choice.dataset.option === correct) {
+                    score++;
+                    feedback.textContent = "✓ Tepat! Jawaban kamu benar.";
+                    feedback.className = "min-h-[28px] font-bold mt-5 text-[#1f9d73]";
+                } else {
+                    choice.classList.add("wrong");
+                    feedback.textContent = "✦ Belum tepat. Perhatikan jawaban yang berwarna hijau.";
+                    feedback.className = "min-h-[28px] font-bold mt-5 text-[#ec6b56]";
+                }
+
+                document.getElementById("next-btn").classList.remove("hidden");
+            });
+        });
+
+        document.getElementById("next-btn").addEventListener("click", () => {
+            if (questionIndex < slides.length - 1) {
+                questionIndex++;
+                showQuestion(questionIndex);
+                return;
+            }
+
+            document.getElementById("quiz-area").classList.add("hidden");
+            document.getElementById("result-area").classList.remove("hidden");
+            document.getElementById("score-display").textContent = `${score} / 3`;
+
+            document.getElementById("result-message").textContent =
+                score === 3
+                    ? "Hebat! Kamu sudah memahami konsep dasar sorting dengan sangat baik."
+                    : score === 2
+                        ? "Bagus! Pelajari kembali bagian yang masih belum tepat agar lebih mantap."
+                        : "Tetap semangat! Coba baca kembali materi dan gunakan simulasi untuk belajar.";
+        });
+
+        document.getElementById("retry-btn").addEventListener("click", () => {
+            score = 0;
+            questionIndex = 0;
+
+            document.querySelectorAll(".choice").forEach((button) => {
+                button.disabled = false;
+                button.classList.remove("correct", "wrong");
+            });
+
+            document.getElementById("result-area").classList.add("hidden");
+            document.getElementById("quiz-area").classList.remove("hidden");
+            showQuestion(0);
+        });
+
+        resetSimulation();
+        if (window.lucide) lucide.createIcons();
+    </script>
+</body>
+</html>
