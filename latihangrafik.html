@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latihan Membuat Grafik di Microsoft Word</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+            color: #1f2937;
+        }
+        @media print {
+            body {
+                background-color: white;
+            }
+            .no-print {
+                display: none;
+            }
+            .page-break {
+                page-break-before: always;
+            }
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5rem;
+            background-color: white;
+        }
+        th, td {
+            border: 1px solid #e5e7eb;
+            padding: 0.75rem;
+            text-align: left;
+        }
+        th {
+            background-color: #f9fafb;
+            font-weight: 600;
+        }
+        .exercise-card {
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <header class="max-w-4xl mx-auto mb-8 text-center">
+        <div class="inline-block bg-blue-600 text-white p-4 rounded-full mb-4 shadow-lg">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
+            </svg>
+        </div>
+        <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-2">Latihan Praktik Microsoft Word</h1>
+        <h2 class="text-xl md:text-2xl text-blue-600 font-semibold mb-4">Membuat Berbagai Jenis Grafik (Chart)</h2>
+        <p class="text-gray-600 max-w-2xl mx-auto">
+            Gunakan tabel data di bawah ini untuk membuat grafik pada Microsoft Word (Menu <strong>Insert > Chart</strong>). Pastikan untuk menambahkan judul grafik, label sumbu (jika ada), dan mengatur tampilan agar menarik dan mudah dibaca.
+        </p>
+        <button onclick="window.print()" class="no-print mt-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition duration-300 shadow-md flex items-center justify-center mx-auto gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+            </svg>
+            Cetak Lembar Latihan
+        </button>
+    </header>
+
+    <main class="max-w-4xl mx-auto">
+
+        <div class="exercise-card">
+            <h3 class="text-xl font-bold text-gray-800 border-b-2 border-blue-500 pb-2 mb-4 flex items-center gap-2">
+                <span class="bg-blue-500 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">1</span>
+                Diagram Batang (Column/Bar Chart)
+            </h3>
+            <p class="mb-4 text-gray-700"><strong>Tugas:</strong> Buatlah diagram batang yang menunjukkan perbandingan penjualan produk per kuartal. Gunakan <em>Clustered Column</em> atau <em>Clustered Bar</em>.</p>
+            <div class="overflow-x-auto">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Produk</th>
+                            <th>Kuartal 1</th>
+                            <th>Kuartal 2</th>
+                            <th>Kuartal 3</th>
+                            <th>Kuartal 4</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Laptop</td>
+                            <td>120</td>
+                            <td>145</td>
+                            <td>160</td>
+                            <td>210</td>
+                        </tr>
+                        <tr>
+                            <td>Smartphone</td>
+                            <td>350</td>
+                            <td>310</td>
+                            <td>420</td>
+                            <td>500</td>
+                        </tr>
+                        <tr>
+                            <td>Tablet</td>
+                            <td>80</td>
+                            <td>95</td>
+                            <td>110</td>
+                            <td>140</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="bg-blue-50 p-3 rounded text-sm text-blue-800 mt-2 border border-blue-200">
+                <strong>Tips:</strong> Pastikan ada legenda (legend) untuk membedakan setiap produk.
+            </div>
+        </div>
+
+        <div class="exercise-card">
+            <h3 class="text-xl font-bold text-gray-800 border-b-2 border-green-500 pb-2 mb-4 flex items-center gap-2">
+                <span class="bg-green-500 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">2</span>
+                Diagram Lingkaran (Pie Chart)
+            </h3>
+            <p class="mb-4 text-gray-700"><strong>Tugas:</strong> Buatlah diagram lingkaran untuk menunjukkan persentase pangsa pasar (Market Share) peramban web. Tampilkan nilai persentase pada setiap irisan (data labels).</p>
+            <div class="overflow-x-auto">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Peramban Web (Browser)</th>
+                            <th>Pengguna Aktif (Juta)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Google Chrome</td>
+                            <td>3200</td>
+                        </tr>
+                        <tr>
+                            <td>Safari</td>
+                            <td>850</td>
+                        </tr>
+                        <tr>
+                            <td>Microsoft Edge</td>
+                            <td>210</td>
+                        </tr>
+                        <tr>
+                            <td>Mozilla Firefox</td>
+                            <td>180</td>
+                        </tr>
+                        <tr>
+                            <td>Lainnya</td>
+                            <td>160</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="exercise-card">
+            <h3 class="text-xl font-bold text-gray-800 border-b-2 border-red-500 pb-2 mb-4 flex items-center gap-2">
+                <span class="bg-red-500 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">3</span>
+                Diagram Garis (Line Chart)
+            </h3>
+            <p class="mb-4 text-gray-700"><strong>Tugas:</strong> Buatlah diagram garis untuk melihat tren suhu rata-rata selama seminggu. Gunakan tipe <em>Line with Markers</em>.</p>
+            <div class="overflow-x-auto">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Hari</th>
+                            <th>Suhu Siang (°C)</th>
+                            <th>Suhu Malam (°C)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Senin</td><td>31</td><td>24</td></tr>
+                        <tr><td>Selasa</td><td>32</td><td>25</td></tr>
+                        <tr><td>Rabu</td><td>30</td><td>23</td></tr>
+                        <tr><td>Kamis</td><td>29</td><td>22</td></tr>
+                        <tr><td>Jumat</td><td>33</td><td>26</td></tr>
+                        <tr><td>Sabtu</td><td>34</td><td>25</td></tr>
+                        <tr><td>Minggu</td><td>31</td><td>24</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="exercise-card page-break">
+            <h3 class="text-xl font-bold text-gray-800 border-b-2 border-purple-500 pb-2 mb-4 flex items-center gap-2">
+                <span class="bg-purple-500 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">4</span>
+                Diagram Area (Area Chart)
+            </h3>
+            <p class="mb-4 text-gray-700"><strong>Tugas:</strong> Buatlah diagram area bertumpuk (<em>Stacked Area</em>) untuk menunjukkan akumulasi pendapatan dari tiga cabang toko selama 6 bulan pertama.</p>
+            <div class="overflow-x-auto">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Bulan</th>
+                            <th>Cabang Jakarta (Juta Rp)</th>
+                            <th>Cabang Bandung (Juta Rp)</th>
+                            <th>Cabang Surabaya (Juta Rp)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Januari</td><td>150</td><td>90</td><td>110</td></tr>
+                        <tr><td>Februari</td><td>160</td><td>105</td><td>125</td></tr>
+                        <tr><td>Maret</td><td>145</td><td>110</td><td>140</td></tr>
+                        <tr><td>April</td><td>170</td><td>125</td><td>135</td></tr>
+                        <tr><td>Mei</td><td>190</td><td>140</td><td>160</td></tr>
+                        <tr><td>Juni</td><td>210</td><td>165</td><td>185</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="exercise-card">
+            <h3 class="text-xl font-bold text-gray-800 border-b-2 border-yellow-500 pb-2 mb-4 flex items-center gap-2">
+                <span class="bg-yellow-500 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">5</span>
+                Diagram Saham (Stock Chart)
+            </h3>
+            <p class="mb-4 text-gray-700"><strong>Tugas:</strong> Buatlah diagram saham tipe <strong>High-Low-Close</strong>. Pastikan urutan kolom di data Excel Anda persis seperti tabel di bawah ini agar grafik terbentuk dengan benar.</p>
+            <div class="overflow-x-auto">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Tanggal</th>
+                            <th>Tertinggi (High)</th>
+                            <th>Terendah (Low)</th>
+                            <th>Penutupan (Close)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>1 Okt</td><td>5500</td><td>5200</td><td>5400</td></tr>
+                        <tr><td>2 Okt</td><td>5450</td><td>5150</td><td>5250</td></tr>
+                        <tr><td>3 Okt</td><td>5600</td><td>5300</td><td>5550</td></tr>
+                        <tr><td>4 Okt</td><td>5700</td><td>5400</td><td>5650</td></tr>
+                        <tr><td>5 Okt</td><td>5650</td><td>5350</td><td>5450</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="bg-yellow-50 p-3 rounded text-sm text-yellow-800 mt-2 border border-yellow-200">
+                <strong>Catatan Penting:</strong> Word mungkin akan meminta data dalam format yang spesifik (High, Low, Close).
+            </div>
+        </div>
+
+        <div class="exercise-card">
+            <h3 class="text-xl font-bold text-gray-800 border-b-2 border-teal-500 pb-2 mb-4 flex items-center gap-2">
+                <span class="bg-teal-500 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">6</span>
+                Diagram Radar (Radar Chart)
+            </h3>
+            <p class="mb-4 text-gray-700"><strong>Tugas:</strong> Buatlah diagram radar untuk membandingkan spesifikasi (nilai 1-10) dari dua merek smartphone.</p>
+            <div class="overflow-x-auto">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Kriteria Penilaian</th>
+                            <th>Merek A</th>
+                            <th>Merek B</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Kinerja Prosesor</td><td>9</td><td>8</td></tr>
+                        <tr><td>Kualitas Kamera</td><td>8</td><td>9</td></tr>
+                        <tr><td>Daya Tahan Baterai</td><td>7</td><td>9</td></tr>
+                        <tr><td>Desain</td><td>9</td><td>7</td></tr>
+                        <tr><td>Harga (Keterjangkauan)</td><td>6</td><td>8</td></tr>
+                        <tr><td>Layar</td><td>8</td><td>8</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="exercise-card page-break">
+            <h3 class="text-xl font-bold text-gray-800 border-b-2 border-orange-500 pb-2 mb-4 flex items-center gap-2">
+                <span class="bg-orange-500 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">7</span>
+                Diagram Sunburst (Hierarchy)
+            </h3>
+            <p class="mb-4 text-gray-700"><strong>Tugas:</strong> Buatlah diagram Sunburst untuk menampilkan struktur hierarki biaya operasional perusahaan.</p>
+            <div class="overflow-x-auto">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Kategori Utama</th>
+                            <th>Sub Kategori</th>
+                            <th>Jumlah (Rp)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td rowspan="3" class="align-top font-semibold">Pemasaran</td><td>Iklan Digital</td><td>5.000.000</td></tr>
+                        <tr><td>Cetak Brosur</td><td>1.500.000</td></tr>
+                        <tr><td>Event Pameran</td><td>8.000.000</td></tr>
+                        
+                        <tr><td rowspan="2" class="align-top font-semibold border-t">Operasional</td><td class="border-t">Sewa Gedung</td><td class="border-t">12.000.000</td></tr>
+                        <tr><td>Listrik & Air</td><td>3.500.000</td></tr>
+                        
+                        <tr><td rowspan="2" class="align-top font-semibold border-t">SDM</td><td class="border-t">Gaji Karyawan</td><td class="border-t">25.000.000</td></tr>
+                        <tr><td>Pelatihan</td><td>4.000.000</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="bg-orange-50 p-3 rounded text-sm text-orange-800 mt-2 border border-orange-200">
+                <strong>Tips Sunburst:</strong> Di jendela data Excel, pastikan Kolom A berisi "Kategori Utama", Kolom B berisi "Sub Kategori", dan Kolom C berisi "Jumlah". Biarkan sel Kategori Utama kosong di bawahnya jika masih tergabung (seperti format di atas).
+            </div>
+        </div>
+
+        <div class="exercise-card">
+            <h3 class="text-xl font-bold text-gray-800 border-b-2 border-indigo-500 pb-2 mb-4 flex items-center gap-2">
+                <span class="bg-indigo-500 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">8</span>
+                Diagram Histogram (Statistik)
+            </h3>
+            <p class="mb-4 text-gray-700"><strong>Tugas:</strong> Buatlah diagram Histogram untuk melihat distribusi frekuensi nilai ujian matematika siswa. Biarkan Word mengelompokkan <em>bin</em> secara otomatis.</p>
+            <div class="overflow-x-auto">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nama Siswa (Opsional/Boleh diabaikan)</th>
+                            <th>Nilai Ujian</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Siswa 1 - 5</td><td>75, 82, 65, 90, 78</td></tr>
+                        <tr><td>Siswa 6 - 10</td><td>85, 72, 88, 92, 68</td></tr>
+                        <tr><td>Siswa 11 - 15</td><td>75, 80, 85, 70, 95</td></tr>
+                        <tr><td>Siswa 16 - 20</td><td>82, 78, 88, 75, 84</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="bg-indigo-50 p-3 rounded text-sm text-indigo-800 mt-2 border border-indigo-200">
+                <strong>Tips Histogram:</strong> Untuk membuat histogram di Word, Anda hanya perlu memasukkan satu kolom data angka (Nilai Ujian). Masukkan semua 20 angka tersebut ke dalam satu kolom memanjang ke bawah di lembar data Excel.
+            </div>
+        </div>
+
+        <div class="exercise-card mb-12">
+            <h3 class="text-xl font-bold text-gray-800 border-b-2 border-pink-500 pb-2 mb-4 flex items-center gap-2">
+                <span class="bg-pink-500 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">9</span>
+                Diagram Box & Whisker
+            </h3>
+            <p class="mb-4 text-gray-700"><strong>Tugas:</strong> Buatlah diagram Box & Whisker untuk melihat persebaran (kuartil, median, outlier) waktu tempuh pengiriman barang dari dua kurir berbeda.</p>
+            <div class="overflow-x-auto">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Pengiriman Ke-</th>
+                            <th>Kurir X (Menit)</th>
+                            <th>Kurir Y (Menit)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>1</td><td>45</td><td>30</td></tr>
+                        <tr><td>2</td><td>50</td><td>35</td></tr>
+                        <tr><td>3</td><td>48</td><td>32</td></tr>
+                        <tr><td>4</td><td>55</td><td>85 (Outlier)</td></tr>
+                        <tr><td>5</td><td>42</td><td>28</td></tr>
+                        <tr><td>6</td><td>60</td><td>33</td></tr>
+                        <tr><td>7</td><td>46</td><td>31</td></tr>
+                        <tr><td>8</td><td>49</td><td>29</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="bg-pink-50 p-3 rounded text-sm text-pink-800 mt-2 border border-pink-200">
+                <strong>Tips Box & Whisker:</strong> Sama seperti histogram, susun data di Excel dalam 2 kolom (Kurir X dan Kurir Y) berserta angkanya ke bawah (tanpa tulisan "Outlier").
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="text-center text-gray-500 text-sm mt-8 pb-8 no-print border-t pt-8">
+        <p>&copy; 2026 Modul Praktikum Komputer Dasar - Microsoft Word</p>
+    </footer>
+
+</body>
+</html>
