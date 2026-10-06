@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>36 Paket Soal Latihan Bubble Sort</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            900: '#1e3a8a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            background-color: #f8fafc; /* slate-50 */
+        }
+        .array-box {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 2.75rem;
+            height: 2.75rem;
+            margin: 0.15rem;
+            border: 1px solid #cbd5e1; /* slate-300 */
+            border-radius: 0.375rem;
+            background-color: white;
+            font-weight: 600;
+            color: #1e293b; /* slate-800 */
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        .step-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            font-size: 0.875rem;
+        }
+        .step-label {
+            width: 5rem;
+            color: #64748b; /* slate-500 */
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+        .sorted-highlight {
+            background-color: #dbeafe; /* blue-100 */
+            border-color: #3b82f6; /* blue-500 */
+            color: #1e3a8a; /* blue-900 */
+        }
+        .hidden-content {
+            display: none;
+        }
+    </style>
+</head>
+<body class="text-slate-800 font-sans antialiased min-h-screen pb-12">
+    
+    <header class="bg-brand-700 text-white shadow-lg sticky top-0 z-10">
+        <div class="container mx-auto px-4 py-6">
+            <h1 class="text-3xl font-bold text-center tracking-tight">Latihan Algoritma Bubble Sort</h1>
+            <p class="text-brand-100 text-center mt-2 font-medium">36 Paket Soal (Ascending / Terkecil ke Terbesar)</p>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 mt-8">
+        <div class="bg-white rounded-xl shadow-md p-6 mb-8 border border-slate-200">
+            <h2 class="text-xl font-bold text-slate-800 mb-2 border-b border-slate-100 pb-2">Instruksi</h2>
+            <p class="text-slate-600 leading-relaxed">Urutkan setiap kumpulan angka di bawah ini menggunakan metode <strong>Bubble Sort</strong> dari nilai terkecil ke terbesar (Ascending). Setiap paket soal berisi array dengan <strong>6 angka acak</strong>. Ingat, pada Bubble Sort, angka terbesar akan "mengapung" ke posisi paling kanan pada setiap iterasinya. Klik tombol "Tampilkan Jawaban" untuk mencocokkan hasil pekerjaan Anda.</p>
+            <div class="mt-4 flex gap-4 text-sm">
+                <div class="flex items-center gap-2">
+                    <div class="w-4 h-4 bg-blue-100 border border-blue-500 rounded"></div> 
+                    <span class="text-slate-600">Posisi akhir yang sudah fix (terurut)</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="quiz-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <!-- Paket soal akan digenerate secara dinamis oleh JavaScript -->
+        </div>
+    </main>
+
+    <script>
+        function generateUniqueArray(size, min, max) {
+            const set = new Set();
+            while (set.size < size) {
+                const randomNum = Math.floor(Math.random() * (max - min + 1)) + min;
+                set.add(randomNum);
+            }
+            return Array.from(set);
+        }
+
+        function generateHardArray(size, min, max) {
+            let arr = generateUniqueArray(size, min, max);
+            
+            // Pada Bubble Sort, iterasi maksimal terjadi jika elemen terkecil
+            // berada di posisi paling kanan. Ia akan bergerak 1 langkah ke kiri
+            // di setiap iterasinya, sehingga memaksa algoritma berjalan penuh (5 pass).
+            let minVal = Math.min(...arr);
+            let minIdx = arr.indexOf(minVal);
+            let lastIdx = size - 1;
+            
+            // Pindahkan elemen terkecil ke ujung kanan array
+            if (minIdx !== lastIdx) {
+                let temp = arr[lastIdx];
+                arr[lastIdx] = arr[minIdx];
+                arr[minIdx] = temp;
+            }
+            
+            return arr;
+        }
+
+        function simulateBubbleSort(arr) {
+            let n = arr.length;
+            let steps = [];
+            // Buat salinan dalam agar tidak mengubah array asli
+            let currentArr = [...arr]; 
+            let passNumber = 1;
+
+            for (let i = 0; i < n - 1; i++) {
+                let swapped = false;
+
+                // Proses perbandingan elemen bersebelahan (1 Pass)
+                for (let j = 0; j < n - i - 1; j++) {
+                    if (currentArr[j] > currentArr[j + 1]) {
+                        // Tukar posisi jika elemen kiri lebih besar dari elemen kanan
+                        let temp = currentArr[j];
+                        currentArr[j] = currentArr[j + 1];
+                        currentArr[j + 1] = temp;
+                        swapped = true;
+                    }
+                }
+
+                // Rekam hasil akhir setelah 1 Pass selesai (iterasi luar)
+                // Jika tidak ada swap, berarti seluruh array sudah terurut (sortedFrom index 0)
+                // Jika ada swap, berarti elemen dari n-pass ke akhir sudah fix di tempatnya
+                let sortedFromIdx = swapped ? (n - passNumber) : 0;
+                
+                steps.push({
+                    stepNumber: passNumber,
+                    arrayState: [...currentArr],
+                    sortedFrom: sortedFromIdx
+                });
+
+                passNumber++;
+
+                // Optimasi Bubble Sort: Jika di pass ini tidak ada pertukaran, hentikan proses.
+                if (!swapped) break; 
+            }
+            
+            // Tambahkan langkah hasil akhir dengan semua elemen disorot
+            // Hanya tambahkan jika langkah terakhir sebelumnya bukan kondisi "sudah terurut sepenuhnya"
+            let lastStep = steps[steps.length - 1];
+            if (lastStep.stepNumber !== 'Hasil') {
+                steps.push({
+                    stepNumber: 'Hasil',
+                    arrayState: [...currentArr],
+                    sortedFrom: 0 
+                });
+            }
+
+            return steps;
+        }
+
+        function renderArrayHTML(arr, sortedFromIdx = arr.length) {
+            let html = '';
+            arr.forEach((num, index) => {
+                let classes = 'array-box';
+                // Sorot (highlight) elemen yang posisinya sudah pasti (berada di indeks sortedFromIdx ke atas)
+                if (index >= sortedFromIdx) {
+                    classes += ' sorted-highlight';
+                }
+                html += `<div class="${classes}">${num}</div>`;
+            });
+            return html;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('quiz-container');
+            const totalPackages = 36;
+            const arraySize = 6; // Diubah menjadi 6 elemen sesuai permintaan
+            
+            // Set untuk melacak kombinasi array agar tidak ada paket yang duplikat
+            const generatedArraysStr = new Set();
+
+            for (let p = 1; p <= totalPackages; p++) {
+                
+                // Hasilkan array berukuran 6 yang pasti membutuhkan 5 iterasi
+                let initialArray;
+                let arrStr;
+                do {
+                    initialArray = generateHardArray(arraySize, 10, 99);
+                    arrStr = initialArray.join(',');
+                } while (generatedArraysStr.has(arrStr));
+                
+                generatedArraysStr.add(arrStr);
+
+                // Dapatkan langkah-langkah solusi Bubble Sort
+                const steps = simulateBubbleSort(initialArray);
+
+                const card = document.createElement('div');
+                card.className = 'bg-white rounded-xl shadow-md border border-slate-200 overflow-hidden flex flex-col transition duration-300 hover:shadow-xl hover:-translate-y-1';
+                
+                // Header Kartu
+                let cardHTML = `
+                    <div class="bg-slate-50 px-4 py-3 border-b border-slate-200 flex justify-between items-center">
+                        <h3 class="font-bold text-brand-700">Paket ${p}</h3>
+                        <span class="text-xs bg-slate-200 text-slate-700 px-2 py-1 rounded-full font-medium">6 Angka</span>
+                    </div>
+                    <div class="p-4 flex-grow">
+                        <p class="text-sm text-slate-500 mb-2 font-medium">Soal Awal:</p>
+                        <div class="flex flex-wrap mb-6">
+                            ${renderArrayHTML(initialArray)}
+                        </div>
+                        
+                        <div class="text-center mb-2">
+                            <button onclick="toggleAnswer('answer-${p}')" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-semibold py-2.5 px-4 rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-opacity-50 text-sm shadow-sm">
+                                Tampilkan Jawaban / Langkah
+                            </button>
+                        </div>
+                        
+                        <div id="answer-${p}" class="hidden-content mt-4 border-t border-slate-100 pt-4">
+                            <h4 class="text-sm font-bold text-slate-700 mb-3">Langkah Penyelesaian (Per Pass):</h4>
+                `;
+
+                // Render setiap iterasi dalam jawaban
+                steps.forEach((step, idx) => {
+                    let label = step.stepNumber === 'Hasil' ? 'Hasil :' : `Pass ${step.stepNumber}:`;
+                    let isLast = (idx === steps.length - 1) || (step.stepNumber === 'Hasil');
+                    
+                    cardHTML += `
+                        <div class="step-row ${isLast ? 'mt-4 pt-3 border-t border-dashed border-slate-300' : ''}">
+                            <div class="step-label ${isLast ? 'text-brand-700 font-bold' : ''}">${label}</div>
+                            <div class="flex flex-wrap">
+                                ${renderArrayHTML(step.arrayState, step.sortedFrom)}
+                            </div>
+                        </div>
+                    `;
+                });
+
+                cardHTML += `
+                        </div>
+                    </div>
+                `;
+
+                card.innerHTML = cardHTML;
+                container.appendChild(card);
+            }
+        });
+
+        function toggleAnswer(id) {
+            const answerDiv = document.getElementById(id);
+            const button = answerDiv.previousElementSibling.querySelector('button');
+            
+            if (answerDiv.classList.contains('hidden-content')) {
+                // Menampilkan jawaban
+                answerDiv.classList.remove('hidden-content');
+                button.textContent = 'Sembunyikan Jawaban';
+                button.classList.remove('bg-brand-600', 'hover:bg-brand-700');
+                button.classList.add('bg-slate-500', 'hover:bg-slate-600');
+            } else {
+                // Menyembunyikan jawaban
+                answerDiv.classList.add('hidden-content');
+                button.textContent = 'Tampilkan Jawaban / Langkah';
+                button.classList.remove('bg-slate-500', 'hover:bg-slate-600');
+                button.classList.add('bg-brand-600', 'hover:bg-brand-700');
+            }
+        }
+    </script>
+</body>
+</html>
